@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 
 import styles from './fileUpload.module.css';
 
@@ -28,21 +29,23 @@ const FileUpload = () => {
             })
         }
     }
-    
-    const handleSubmission = (event) => {
-        console.log('done')
+
+    const handleSubmission = async (event) => {
         event.preventDefault();
         setUploading(true);
-        //axios stuff
+        const formData = new FormData();
+        formData.append('file',file)
+        const prms = await axios.post('http://localhost:8000/upload',formData);
+        console.log(prms.data.req);
         setUploading(false);
     }
 
     return (
-        <form className={styles.card} onSubmit={(e) => e.preventDefault()}>
+        <form className={styles.card} encType="multipart/form-data" onSubmit={(e) => e.preventDefault()}>
             {error.state && <p className={styles.error}>{error.message}</p>}
-            <label for='upload'>Upload video :</label>
+            <label htmlFor='upload'>Upload video :</label>
             <input type="file" name="upload" id='upload' className={styles.upload} onChange={changeHandler} />
-            <button onClick={handleSubmission} disabled={error.state || !file} className={styles.btn}>Upload</button>
+            <button onClick={handleSubmission} disabled={error.state || !file} className={styles.btn}>{uploading ? 'Uploading' : 'Upload' }</button>
         </form>
     )
 }
