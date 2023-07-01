@@ -39,10 +39,10 @@ const FileUpload = () => {
 
     return (
         <form className={styles.card} onSubmit={(e) => e.preventDefault()}>
-            {error.state && <p className={styles}>{error.message}</p>}
+            {error.state && <p className={styles.error}>{error.message}</p>}
             <label for='upload'>Upload video :</label>
-            <input type="file" name="upload" id='upload' className={styles.btn} onChange={changeHandler} />
-            <button onClick={handleSubmission} disabled={error.state && file} className={styles.btn}>Upload</button>
+            <input type="file" name="upload" id='upload' className={styles.upload} onChange={changeHandler} />
+            <button onClick={handleSubmission} disabled={error.state || !file} className={styles.btn}>Upload</button>
         </form>
     )
 }
