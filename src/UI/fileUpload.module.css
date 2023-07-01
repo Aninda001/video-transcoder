@@ -8,3 +8,7 @@
     padding: 1em;
     margin: 0.3em;
 }
+
+.error{
+    background-color: rgb(222, 54, 54);
+}
