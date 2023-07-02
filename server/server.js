@@ -17,22 +17,36 @@ app.use(function (req, res, next) {
 });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
-    const options = {
-        input: `${req.file.originalname}`,
-        output: 'something.mkv',
-        preset: 'Very Fast 1080p30'
-    }
+    const fileName = Date.now();
     var buf = Buffer.from(req.file.buffer);
-    fs.writeFile(`${req.file.originalname}`, buf, { encoding: "binary" }, function (err) {
+    fs.writeFile(`incoming\\${req.file.originalname}`, buf, { encoding: "binary" }, function (err) {
         if (err) {
             return console.error(err);
         }
     })
     console.log("Data written successfully!");
+
+    const options = {
+        input: `incoming\\${req.file.originalname}`,
+        output: `outgoing\\${fileName}.mkv`,
+        preset: 'Very Fast 2160p60 4K HEVC'
+    }
+
+    console.log('Start converting');
     const result = await hbjs.run(options);
     console.log(result.stdout);
-    console.log('done converting');
-    // res.json({req});
+    console.log('Done converting');
+
+    fs.unlink(`incoming\\${req.file.originalname}`, (err) => {
+        if (err) return console.error(err);
+        console.log('Successfully deleted');
+    });
+
+    res.json({ path: options.output });
+});
+
+app.get('/download/outgoing/:path', (req,res) => {
+    res.download(`outgoing/${req.params.path}`);
 });
 
 app.listen(port, () => {
