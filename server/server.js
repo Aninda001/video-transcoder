@@ -4,6 +4,8 @@ const hbjs = require('handbrake-js');
 const fs = require('fs');
 const del = require('./delete');
 
+require('dotenv').config();
+
 const port = 8000;
 const format = ['mp4', 'm4v', 'mov', 'mpg', 'mpeg', 'avi', 'mkv', 'wmv', 'flv', 'webm', 'vob', 'evo', 'mts', 'm2ts'];
 
@@ -68,6 +70,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!')
 })
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Listening....`);
 });
