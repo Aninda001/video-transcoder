@@ -3,11 +3,12 @@ import Upload from './UI/fileUpload';
 import './App.css';
 
 function App() {
-  return (
+  return (<>
+    <Header />
     <div className="App">
-      <Header />
       <Upload />
     </div>
+  </>
   );
 }
 
