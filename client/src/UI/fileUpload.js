@@ -36,12 +36,12 @@ const FileUpload = () => {
         const formData = new FormData();
         formData.append('file',file)
         const prms = await axios.post('http://localhost:8000/upload',formData);
-        console.log(prms.data.req);
+        console.log(file);
         setUploading(false);
     }
 
     return (
-        <form className={styles.card} encType="multipart/form-data" onSubmit={(e) => e.preventDefault()}>
+        <form className={styles.card} onSubmit={(e) => e.preventDefault()}>
             {error.state && <p className={styles.error}>{error.message}</p>}
             <label htmlFor='upload'>Upload video :</label>
             <input type="file" name="upload" id='upload' className={styles.upload} onChange={changeHandler} />
