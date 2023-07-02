@@ -7,6 +7,7 @@ const format = ['mp4', 'm4v', 'mov', 'mpg', 'mpeg', 'avi', 'mkv', 'wmv', 'flv', 
 
 const FileUpload = () => {
     const [file, setFile] = useState('');
+    const [codec, setCodec] = useState('mp4');
     const [error, setError] = useState({
         state: false,
         message: ''
@@ -34,8 +35,8 @@ const FileUpload = () => {
         }
     }
 
-    const downloadHandler = () => {
-        axios.get('http://localhost:8000/download/'+ downloadUrl);
+    const downloadHandler = async () => {
+        window.location.assign('http://localhost:8000/download/' + downloadUrl);
     }
 
     const handleSubmission = async (event) => {
@@ -43,7 +44,8 @@ const FileUpload = () => {
         event.preventDefault();
         setUploading(true);
         const formData = new FormData();
-        formData.append('file', file)
+        formData.append('file', file);
+        formData.append('codec', codec);
         const prms = await axios.post('http://localhost:8000/upload', formData, {
             onUploadProgress: progressEvent => {
                 let percentComplete = progressEvent.loaded / progressEvent.total;
@@ -70,11 +72,30 @@ const FileUpload = () => {
         txt = 'Upload';
     }
 
+    const codecHandler = (event) => {
+        setCodec(event.target.value);
+    }
+
     return (
         <form className={styles.card} onSubmit={(e) => e.preventDefault()}>
             {error.state && <p className={styles.error}>{error.message}</p>}
-            <label htmlFor='upload'>Upload video :</label>
-            <input type="file" name="upload" id='upload' className={styles.upload} onChange={changeHandler} />
+            <div>
+                <label htmlFor='upload'>Upload video : </label>
+                <input type="file" name="upload" id='upload' required
+                    className={styles.upload} onChange={changeHandler} />
+            </div>
+            <div>
+                <label htmlFor="languages">Select format : </label>
+                <select name="language" id="language" required onChange={codecHandler}>
+                    {format.map(ver => {
+                        return (
+                            <option key={ver.toLowerCase()}>
+                                {ver.toLowerCase()}
+                            </option>
+                        )
+                    })}
+                </select>
+            </div>
             <button onClick={handleSubmission} disabled={error.state || !file || uploading || processing}
                 className={styles.btn}>{txt}
             </button>
