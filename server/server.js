@@ -3,6 +3,7 @@ const multer = require('multer');
 const hbjs = require('handbrake-js');
 const fs = require('fs');
 const del = require('./delete');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -13,14 +14,8 @@ const format = ['mp4', 'm4v', 'mov', 'mpg', 'mpeg', 'avi', 'mkv', 'wmv', 'flv', 
 const app = express();
 const upload = multer();
 
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    if(req.method === 'OPTIONS') { return res.status(200).json(({ body: "OK" })) }
-    next();
-});
+app.use(cors());
+app.options('*', cors());
 
 app.post('/upload', upload.single('file'), async (req, res, next) => {
 
