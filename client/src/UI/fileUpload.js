@@ -36,7 +36,7 @@ const FileUpload = () => {
     }
 
     const downloadHandler = async () => {
-        window.location.assign('https://video-transcoder-back.vercel.app/download/' + downloadUrl);
+        window.location.assign(process.env.REACT_APP_API_URL + '/download/' + downloadUrl);
     }
 
     const handleSubmission = async (event) => {
@@ -46,7 +46,7 @@ const FileUpload = () => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('codec', codec);
-        const prms = await axios.post('https://video-transcoder-back.vercel.app/upload', formData, {
+        const prms = await axios.post(process.env.REACT_APP_API_URL + '/upload', formData, {
             onUploadProgress: progressEvent => {
                 let percentComplete = progressEvent.loaded / progressEvent.total;
                 percentComplete = parseInt(percentComplete * 100);
@@ -54,7 +54,8 @@ const FileUpload = () => {
                     setUploading(false);
                     setProcessing(true);
                 }
-            }
+            },
+            withCredentials : false
         });
         setProcessing(false);
         setDownload(true);

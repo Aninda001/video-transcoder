@@ -3,7 +3,8 @@ const multer = require('multer');
 const hbjs = require('handbrake-js');
 const fs = require('fs');
 const del = require('./delete');
-const cors = require('cors');
+const { ok } = require("assert");
+// const cors = require('cors');
 
 require('dotenv').config();
 
@@ -11,11 +12,37 @@ const port = 8000;
 const format = ['mp4', 'm4v', 'mov', 'mpg', 'mpeg', 'avi', 'mkv', 'wmv', 'flv', 'webm', 'vob', 'evo', 'mts', 'm2ts'];
 
 
-const app = express();
+var app = express();
 const upload = multer();
+// app.use(cors())
+app.use((req,res,next) => {
+    res.setHeader('Access-Control-Allow-Credentials', true)
 
-app.use(cors());
-app.options('*', cors());
+    res.setHeader('Access-Control-Allow-Origin', '*')
+  
+    // another common pattern
+  
+    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  
+    res.setHeader(
+  
+      'Access-Control-Allow-Headers',
+  
+      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  
+    )
+  
+    if (req.method === 'OPTIONS') {
+  
+      res.status(200).json({body : 'ok'})
+  
+      return;
+  
+    }
+    next();
+});
 
 app.post('/upload', upload.single('file'), async (req, res, next) => {
 
