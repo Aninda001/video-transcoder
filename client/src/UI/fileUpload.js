@@ -55,7 +55,6 @@ const FileUpload = () => {
                     setProcessing(true);
                 }
             },
-            withCredentials : false
         });
         setProcessing(false);
         setDownload(true);

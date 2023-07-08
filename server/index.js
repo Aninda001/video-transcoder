@@ -13,30 +13,29 @@ createDir();
 var app = express();
 const upload = multer();
 app.use((req,res,next) => {
-    res.setHeader('Access-Control-Allow-Credentials', true)
+    // res.setHeader('Access-Control-Allow-Credentials', true)
 
-    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+    res.header('Access-Control-Allow-Origin', '*')
   
     // another common pattern
   
     // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
   
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
   
-    res.setHeader(
+    // res.setHeader(
   
-      'Access-Control-Allow-Headers',
+    //   'Access-Control-Allow-Headers',
   
-      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    //   'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   
-    )
+    // )
   
     if (req.method === 'OPTIONS') {
+        console.log("options");
   
-      res.status(200).json({body : 'ok'})
-  
-      return;
-  
+      return res.status(200).send('ok');
+    
     }
     next();
 });
@@ -81,6 +80,9 @@ app.post('/upload', upload.single('file'), async (req, res, next) => {
     res.json({ path: options.output });
 });
 
+app.get('/',(req,res) => {
+    res.send('API Online');
+})
 app.get('/download/outgoing/:path', (req, res) => {
     res.download(`${__dirname}\\outgoing\\${req.params.path}`);
 });
