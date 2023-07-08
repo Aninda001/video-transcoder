@@ -3,18 +3,15 @@ const multer = require('multer');
 const hbjs = require('handbrake-js');
 const fs = require('fs');
 const del = require('./delete');
-const { ok } = require("assert");
-// const cors = require('cors');
+const createDir = require('./createDir')
 
 require('dotenv').config();
 
-const port = 8000;
 const format = ['mp4', 'm4v', 'mov', 'mpg', 'mpeg', 'avi', 'mkv', 'wmv', 'flv', 'webm', 'vob', 'evo', 'mts', 'm2ts'];
 
-
+createDir();
 var app = express();
 const upload = multer();
-// app.use(cors())
 app.use((req,res,next) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
 
