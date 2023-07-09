@@ -83,9 +83,6 @@ app.post('/upload', upload.single('file'), async (req, res, next) => {
 app.get('/',(req,res) => {
     res.send('API Online');
 })
-app.get('/download/outgoing/:path', (req, res) => {
-    res.download(`${__dirname}\\outgoing\\${req.params.path}`);
-});
 
 app.use((err, req, res, next) => {
     console.error(err.stack)
