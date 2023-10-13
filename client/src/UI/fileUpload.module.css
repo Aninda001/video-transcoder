@@ -14,3 +14,14 @@
     padding: 1em;
 }
 
+.fileupload{
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(65, 72, 36, 0.3);
+}
+
+.upload{
+    display: none;
+}

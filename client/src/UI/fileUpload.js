@@ -76,14 +76,36 @@ const FileUpload = () => {
         setCodec(event.target.value);
     }
 
+    const dropHandler = event => {
+        event.preventDefault();
+        console.log(event);
+        setDownload(false);
+        const ext = event.dataTransfer.files[0].name.lastIndexOf('.');
+        if (format.includes(event.dataTransfer.files[0].name.slice(ext + 1).toLowerCase())) {
+            setError({
+                state: false,
+                message: ''
+            })
+            setFile(event.dataTransfer.files[0]);
+        }
+        else {
+            setError({
+                state: true,
+                message: 'Unsopported file format'
+            })
+        }
+    }
+
     return (
         <form className={styles.card} onSubmit={(e) => e.preventDefault()}>
             {error.state && <p className={styles.error}>{error.message}</p>}
-            <div>
-                <label htmlFor='upload'>Upload video : </label>
-                <input type="file" name="upload" id='upload' required
-                    className={styles.upload} onChange={changeHandler} />
-            </div>
+
+            <label htmlFor='upload' onDrop={dropHandler}>
+                   <div className={styles.fileupload}>{file === '' ? "Drag&Drop or Click to Upload Video" : file.name}</div>
+            </label>
+            <input type="file" name="upload" id='upload' required
+                className={styles.upload} onChange={changeHandler} />
+
             <div>
                 <label htmlFor="languages">Select format : </label>
                 <select name="language" id="language" required onChange={codecHandler}>
