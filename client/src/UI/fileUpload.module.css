@@ -1,27 +1,32 @@
-.card{
+.card {
     display: flex;
     flex-direction: column;
     width: 80vw;
 }
 
-.btn{
+.btn {
     padding: 1em;
     margin: 0.3em;
 }
 
-.error{
+.error {
     background-color: rgb(222, 54, 54);
     padding: 1em;
 }
 
-.fileupload{
+.fileupload {
     height: 30vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: rgba(65, 72, 36, 0.3);
+    background-color: rgba(15, 187, 36, 0.5);
 }
 
-.upload{
+.upload {
     display: none;
+}
+
+.select {
+    margin: 1rem;
+    padding: 0.5rem 2rem;
 }

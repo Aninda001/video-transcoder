@@ -153,6 +153,7 @@ const FileUpload = () => {
                     id="language"
                     required
                     onChange={codecHandler}
+                    className={styles.select}
                 >
                     {format.map((ver) => {
                         return (
